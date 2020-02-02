@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2020-02-02" />
+
+<title>AlphaSimR examples</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Draft_Lab2</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="Lab2_AlphaSimRexamples.html">Lab2</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">AlphaSimR examples</h1>
+<h4 class="author">Jean-Luc Jannink and Kelly Robbins</h4>
+<address class="author_afil">
+USDA-ARS / Cornell<br><h4 class="date">February 2, 2020</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-02-02
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Lab2_7170/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200202code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200202)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200202code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200202)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong6e75743"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 6e75743 </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong6e75743" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  .addToReadMe.txt
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+6e75743
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+<td>
+wflow_publish(c(“README.md”, &quot;analysis/_site.yml&quot;,
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+<div id="objectives" class="section level2">
+<h2>Objectives</h2>
+<p>We will be using <code>AlphaSimR</code> to<br />
+* Simulate datasets to test statistical genetic analysis methods<br />
+* Simulate whole breeding programs in view of optimizing them</p>
+<p>Example code to work with <code>AlphaSimR</code> to<br />
+1. Create founder haplotypes with and without population structure<br />
+2. Get breeding values from <code>AlphaSimR</code> and from an “experiment”<br />
+3. Play with directional dominance and evaluate inbreeding depression<br />
+4. Run that through some selection cycles and see how inbreeding depression evolves</p>
+<p><strong>NOTE</strong> When you run this for yourself, change the random seed, else everyone will get the same result.</p>
+</div>
+<div id="reproducibility" class="section level2">
+<h2>Reproducibility</h2>
+<p>Here is the <a href="../README.md">README file</a> for this report</p>
+<div id="script-setup" class="section level3">
+<h3>Script setup</h3>
+<p>Install packages, start the README.md, set the random seed</p>
+</div>
+</div>
+<div id="coalescent-simulator-to-create-founder-haplotypes" class="section level2">
+<h2>Coalescent simulator to create founder haplotypes</h2>
+<div id="script-parameters" class="section level3">
+<h3>Script parameters</h3>
+<p>Number of founders <code>nFounders</code> = 100<br />
+Number of chromosomes <code>nChr</code> = 7<br />
+Each chromosome has <code>segSites</code> = 140 segregating sites<br />
+Each chromosome has <code>nQTL</code> = 100 QTL</p>
+</div>
+<div id="coalescent-with-without-subpopulations" class="section level3">
+<h3>Coalescent with / without subpopulations</h3>
+<p><code>AlphaSimR</code> can create founder haplotypes with the <a href="https://www.ncbi.nlm.nih.gov/pubmed/19029539">coalescent simulator, MaCS</a>.</p>
+<pre class="r"><code>nGenAgoSplit &lt;- 100
+founderHaps &lt;- runMacs2(nInd = nFounders, segSites = segSites, split = nGenAgoSplit, 
+    histNe = NULL, histGen = NULL)
+genoMat &lt;- pullSegSiteGeno(founderHaps)
+pcFnd &lt;- prcomp(genoMat, retx = T)
+op &lt;- par(mfrow = c(1, 2))
+plot(pcFnd$x[, 1:2], pch = 16, main = paste(&quot;Split&quot;, nGenAgoSplit, &quot;generations ago&quot;))
+plot(pcFnd$x[, c(1, 3)], pch = 16, main = paste(&quot;Split&quot;, nGenAgoSplit, &quot;generations ago&quot;))</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20with%20subpopulations-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The default is to have no subpopulation structure</p>
+<pre class="r"><code>founderHaps &lt;- runMacs2(nInd = nFounders, segSites = segSites, histNe = NULL, histGen = NULL)
+genoMat &lt;- pullSegSiteGeno(founderHaps)
+pcFnd &lt;- prcomp(genoMat, retx = T)
+plot(pcFnd$x[, 1:2], pch = 16, main = paste(&quot;No subpopulation split&quot;))
+plot(pcFnd$x[, c(1, 3)], pch = 16, main = paste(&quot;No subpopulation split&quot;))
+
+par(op)</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-2.png" width="672" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>What will affect whether subpopulations diverge <em>phenotypically</em> (that is, not just in terms of allele frequencies at markers)?</p>
+</blockquote>
+</div>
+<div id="genotypic-value-versus-breeding-value" class="section level3">
+<h3>Genotypic value versus breeding value</h3>
+<p>By default, the additive genetic variance among founders will be 1.</p>
+<pre class="r"><code># Setup the genotype to phenotype mapping
+SP &lt;- SimParam$new(founderHaps)
+meanDD &lt;- 0.4
+varDD &lt;- 0.3
+addToREADME(c(&quot;Chunk Compare breeding value to genotypic value&quot;, paste(&quot;Dominance degree mean&quot;, 
+    meanDD), paste(&quot;Dominance degree variance&quot;, varDD), &quot;&quot;))
+SP$addTraitAD(nQtlPerChr = nQTL, meanDD = meanDD, varDD = varDD)
+
+# Create a new population of founders
+founders &lt;- newPop(founderHaps, simParam = SP)
+
+# Compare genotypic and breeding values
+plot(gv(founders), bv(founders), pch = 16, xlab = &quot;Genotypic value&quot;, ylab = &quot;Breeding value&quot;, 
+    main = &quot;Breeding value against genotypic value&quot;, cex.axis = 1.3, cex.lab = 1.3)</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Compare%20breeding%20value%20to%20genotypic%20value-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="estimated-versus-analytical-breeding-value" class="section level3">
+<h3>Estimated versus analytical breeding value</h3>
+<p>Estimating the breeding value by a progeny test. Cheating a bit because the estimation method uses the genotypic value, as opposed to a phenotype.</p>
+<pre class="r"><code># Estimate breeding values  
+# ind is the individual whose breeding value you want to estimate  
+# pop is the population that individual is in  
+# nProgeny is the number of progeny for the test  
+estimateBV &lt;- function(ind, pop, nProgeny) {
+    # Set up crossPlan to cross ind to random others nProgeny times
+    crossPlan &lt;- cbind(ind, sample(nInd(pop), nProgeny, replace = T))
+    progeny &lt;- makeCross(founders, crossPlan)
+    return(2 * mean(gv(progeny)))
+}
+
+nProgeny &lt;- 5
+estimatedBV &lt;- sapply(1:nInd(founders), estimateBV, pop = founders, nProgeny = nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch = 16, xlab = &quot;Analytical value&quot;, ylab = &quot;Estimated value&quot;, 
+    main = paste(&quot;Breeding value estimated from&quot;, nProgeny, &quot;Progeny&quot;))
+
+nProgeny &lt;- 50
+estimatedBV &lt;- sapply(1:nInd(founders), estimateBV, pop = founders, nProgeny = nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch = 16, xlab = &quot;Analytical value&quot;, ylab = &quot;Estimated value&quot;, 
+    main = paste(&quot;Breeding value estimated from&quot;, nProgeny, &quot;Progeny&quot;))
+
+nProgeny &lt;- 500
+estimatedBV &lt;- sapply(1:nInd(founders), estimateBV, pop = founders, nProgeny = nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch = 16, xlab = &quot;Analytical value&quot;, ylab = &quot;Estimated value&quot;, 
+    main = paste(&quot;Breeding value estimated from&quot;, nProgeny, &quot;Progeny&quot;))</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-3.png" width="672" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>Change the <code>estimateBV</code> function so that it returns a mean <em>phenotypic</em> value, with the user able to specify the broad sense heritability with which the phenotype is measured.<br />
+What sources of error variation are contributing to estimates of the parent breeding value?</p>
+</blockquote>
+</div>
+</div>
+<div id="inbreeding-depression" class="section level2">
+<h2>Inbreeding depression</h2>
+<p>Inbreeding depression should increase as the degree of dominance increases. It has to be directional dominance: that the alleles shifting the phenotype in the same direction are always the dominant ones. Here, inbreeding depression is the difference in the genotypic value between an individual and the mean genotypic value of its progeny from selfing.</p>
+<pre class="r"><code># Setup a new genotype to phenotype mapping
+SP &lt;- SimParam$new(founderHaps)
+# Try different values of degree of dominance
+meanDD &lt;- c(0, 0.4, 0.8)
+varDD &lt;- 0.2
+addToREADME(c(&quot;Chunk Inbreeding depression&quot;, paste(&quot;Dominance degree mean&quot;, paste(meanDD, 
+    collapse = &quot; &quot;)), paste(&quot;Dominance degree variance&quot;, varDD), &quot;&quot;))
+SP$addTraitAD(nQtlPerChr = nQTL, mean = rep(0, 3), var = rep(1, 3), meanDD = meanDD, 
+    varDD = varDD)
+# Create a new population of founders
+founders &lt;- newPop(founderHaps, simParam = SP)
+
+# Estimate individual inbreeding depression
+# ind is the individual whose inbreeding depression you want to estimate
+# pop is the population that individual is in
+# nProgeny is the number of selfed progeny for the test
+estimateInbDep &lt;- function(ind, pop, nProgeny) {
+    # Set up crossPlan to self ind nProgeny times
+    crossPlan &lt;- matrix(rep(ind, 2 * nProgeny), ncol = 2)
+    progeny &lt;- makeCross(pop, crossPlan)
+    return(gv(pop[ind]) - colMeans(gv(progeny)))
+}
+
+nProgeny &lt;- 500
+estInbDepFndr &lt;- t(sapply(1:nInd(founders), estimateInbDep, pop = founders, nProgeny = nProgeny))
+# Standardize by the genotypic standard deviation
+sigmaG &lt;- sqrt(diag(varG(founders)))
+for (trait in 1:ncol(estInbDepFndr)) {
+    estInbDepFndr &lt;- estInbDepFndr/sigmaG[trait]
+}
+# Make nice plot
+boxplot(estInbDepFndr, xaxt = &quot;n&quot;, xlab = &quot;Mean dominance degree&quot;, ylab = &quot;Inbreeding depression&quot;)
+axis(side = 1, at = 1:3, labels = F)
+mtext(meanDD, at = 1:3, side = 1, line = 1, cex = 1.3)</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Inbreeding%20depression-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="selection-effectiveness-on-loci-with-different-action" class="section level2">
+<h2>Selection effectiveness on loci with different action</h2>
+<div id="set-up-the-selection-program" class="section level3">
+<h3>Set up the selection program</h3>
+<p>Number of cycles, how to weight different traits, selection intensity, etc.</p>
+<pre class="r"><code># Number of selection cycles
+nCyc &lt;- 5
+# Selection index weights for the traits
+idxWgt &lt;- c(1, 1, 1)
+# Narrow-sense heritabilities
+h2 &lt;- c(0.5, 0.5, 0.5)
+errVar &lt;- diag(varA(founders))/h2 - diag(varG(founders))
+# Selection intensity
+nProgeny &lt;- 1000
+nToSelect &lt;- 100
+addToREADME(c(&quot;Chunk Selection&quot;, paste(&quot;Number of cycles of selection&quot;, nCyc), paste(&quot;Index weights across three traits&quot;, 
+    paste(idxWgt, collapse = &quot; &quot;)), paste(&quot;Heritability across three traits&quot;, paste(h2, 
+    collapse = &quot; &quot;)), paste(&quot;Error var across three traits&quot;, paste(round(errVar, 
+    2), collapse = &quot; &quot;)), paste(&quot;Number of progeny&quot;, nProgeny), paste(&quot;Number to select&quot;, 
+    nToSelect), &quot;&quot;))
+
+# Setup to save cycle means for inspection
+cycleMeans &lt;- list(phenoByCyc = NULL, genoValByCyc = NULL, breedValByCyc = NULL)
+saveCycMeans &lt;- function(cycleMeans) {
+    within(cycleMeans, {
+        phenoByCyc &lt;- rbind(phenoByCyc, c(colMeans(selectedPheno), colMeans(progenyPheno)))
+        genoValByCyc &lt;- rbind(genoValByCyc, c(colMeans(gv(selected)), colMeans(gv(progenyPop))))
+        breedValByCyc &lt;- rbind(breedValByCyc, c(colMeans(bv(selected)), colMeans(bv(progenyPop))))
+    })
+}</code></pre>
+<blockquote>
+<p>Discuss the function <code>saveCycMeans</code> from the perspective of good coding practice</p>
+</blockquote>
+</div>
+<div id="run-the-breeding-program" class="section level3">
+<h3>Run the breeding program</h3>
+<p>Use <code>AlphaSimR</code> functions in a simple loop</p>
+<pre class="r"><code>selected &lt;- founders
+selectedPheno &lt;- setPheno(selected, varE = errVar, onlyPheno = T)
+for (cyc in 1:nCyc) {
+    # Create new population
+    # Randomly mate but with equal representation of all selected
+    crossPlan &lt;- matrix(sample(rep(1:nInd(selected), length.out = 2 * nProgeny)), 
+        ncol = 2)
+    progenyPop &lt;- makeCross(selected, crossPlan)
+    # Get phenotypes
+    progenyPheno &lt;- setPheno(progenyPop, varE = errVar, onlyPheno = T)
+    # Store phenotypes, genotypic values, and breeding values for analysis
+    cycleMeans &lt;- saveCycMeans(cycleMeans)
+    # Select
+    selIdx &lt;- progenyPheno %*% idxWgt
+    toSelect &lt;- order(selIdx, decreasing = T)[1:nToSelect]
+    selected &lt;- progenyPop[toSelect]
+    selectedPheno &lt;- progenyPheno[toSelect, ]
+}
+
+# Make a plot of gain from selection
+progGenoVal &lt;- cycleMeans$genoValByCyc[, 4:6]
+ylim &lt;- range(c(progGenoVal, 2.5))
+plot(1:nCyc, progGenoVal[, 1], type = &quot;l&quot;, ylim = ylim, xlab = &quot;Breeding cycle&quot;, 
+    ylab = &quot;Progney genotypic value&quot;, main = &quot;Gain from selection!&quot;)
+lines(1:nCyc, progGenoVal[, 2], col = 2)
+lines(1:nCyc, progGenoVal[, 3], col = 3)
+legend(1, 2.5, c(&quot;meanDD=0.0&quot;, &quot;meanDD=0.4&quot;, &quot;meanDD=0.8&quot;), pch = 16, col = 1:3)</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Selection%20do%20it-1.png" width="672" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>Explore the matrices of phenotypic, genotypic, and breeding values. What is the relationship between the genotypic value of the selected parents and the genotypic value of their offspring. What about breeding values?</p>
+</blockquote>
+</div>
+<div id="analyze-inbreeding-depression" class="section level3">
+<h3>Analyze inbreeding depression</h3>
+<p>Selection will have lowered the genotypic variance across all traits. Some loci will have shifted in allele frequency more than others.</p>
+<pre class="r"><code># Inbreeding depression relative to genetic standard deviation
+nProgeny &lt;- 100
+estInbDepSelected &lt;- t(sapply(1:nInd(progenyPop), estimateInbDep, pop = progenyPop, 
+    nProgeny = nProgeny))
+# Standardize by the genotypic standard deviation
+sigmaG &lt;- sqrt(diag(varG(progenyPop)))
+for (trait in 1:ncol(estInbDepSelected)) {
+    estInbDepSelected &lt;- estInbDepSelected/sigmaG[trait]
+}
+# Make nice plot
+boxplot(estInbDepSelected, xaxt = &quot;n&quot;, xlab = &quot;Mean dominance degree&quot;, ylab = &quot;Inbreeding depression&quot;)
+axis(side = 1, at = 1:3, labels = F)
+mtext(meanDD, at = 1:3, side = 1, line = 1, cex = 1.3)
+
+# Compare unselected founders to selected progeny
+plot(apply(estInbDepFndr, 2, median), apply(estInbDepSelected, 2, median), pch = 16, 
+    xlab = &quot;Inbreeding depression in founders&quot;, ylab = &quot;Inbreeding depression in selected&quot;, 
+    col = 1:3, cex = 2, main = &quot;Change in relative inbreeding depression&quot;)
+lines(c(-1, 3), c(-1, 3))
+legend(0.1, 1, c(&quot;meanDD=0.0&quot;, &quot;meanDD=0.4&quot;, &quot;meanDD=0.8&quot;), pch = 16, col = 1:3)</code></pre>
+<p><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-2.png" width="672" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>How do you interpret this result?</p>
+</blockquote>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()
+R version 3.6.1 (2019-07-05)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3      purrr_0.3.3     
+ [5] readr_1.3.1      tidyr_1.0.0      tibble_2.1.3     ggplot2_3.2.1   
+ [9] tidyverse_1.3.0  AlphaSimR_0.11.0 R6_2.4.1         workflowr_1.6.0 
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_0.2.5 xfun_0.11        haven_2.2.0      lattice_0.20-38 
+ [5] colorspace_1.4-1 vctrs_0.2.1      generics_0.0.2   htmltools_0.4.0 
+ [9] yaml_2.2.0       rlang_0.4.2      later_1.0.0      pillar_1.4.3    
+[13] withr_2.1.2      glue_1.3.1       DBI_1.1.0        dbplyr_1.4.2    
+[17] modelr_0.1.5     readxl_1.3.1     lifecycle_0.1.0  munsell_0.5.0   
+[21] gtable_0.3.0     cellranger_1.1.0 rvest_0.3.5      evaluate_0.14   
+[25] knitr_1.26       httpuv_1.5.2     fansi_0.4.0      broom_0.5.3     
+[29] Rcpp_1.0.3       formatR_1.7      promises_1.1.0   backports_1.1.5 
+[33] scales_1.1.0     jsonlite_1.6     fs_1.3.1         hms_0.5.2       
+[37] digest_0.6.23    stringi_1.4.3    grid_3.6.1       rprojroot_1.3-2 
+[41] cli_2.0.0        tools_3.6.1      magrittr_1.5     lazyeval_0.2.2  
+[45] crayon_1.3.4     whisker_0.4      pkgconfig_2.0.3  zeallot_0.1.0   
+[49] xml2_1.2.2       reprex_0.3.0     lubridate_1.7.4  rstudioapi_0.10 
+[53] assertthat_0.2.1 rmarkdown_2.0    httr_1.4.1       nlme_3.1-143    
+[57] git2r_0.26.1     compiler_3.6.1  </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
