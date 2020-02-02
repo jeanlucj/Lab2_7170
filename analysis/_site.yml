@@ -1,7 +1,7 @@
-name: "Draft_Lab2"
+name: Draft_Lab2
 output_dir: ../docs
 navbar:
-  title: "Draft_Lab2"
+  title: Draft_Lab2
   left:
   - text: Home
     href: index.html
@@ -11,6 +11,10 @@ navbar:
     href: license.html
   - text: Lab2
     href: Lab2_AlphaSimRexamples.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/jeanlucj/Lab2_7170
 output:
   workflowr::wflow_html:
     toc: yes
