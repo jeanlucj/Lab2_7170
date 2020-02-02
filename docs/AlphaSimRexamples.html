@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -358,11 +360,17 @@ div.tocify {
   <a href="license.html">License</a>
 </li>
 <li>
-  <a href="Lab2_AlphaSimRexamples.html">Lab2</a>
+  <a href="AlphaSimRexamples.html">Lab2</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/jeanlucj/Lab2_7170">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -498,10 +506,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong6e75743"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 6e75743 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjeanlucjLab27170tree5f7ba8efbcb4e69ce084e4c153077211f058956btargetblank5f7ba8ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jeanlucj/Lab2_7170/tree/5f7ba8efbcb4e69ce084e4c153077211f058956b" target="_blank">5f7ba8e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong6e75743" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjeanlucjLab27170tree5f7ba8efbcb4e69ce084e4c153077211f058956btargetblank5f7ba8ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -552,10 +560,27 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jeanlucj/Lab2_7170/67f8de424a88badc710a028731186c3dc812f239/docs/AlphaSimRexamples.html" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
-6e75743
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/6e757434071fe451b2c7cc5d8bb3a732ff73d8cc/analysis/AlphaSimRexamples.Rmd" target="_blank">6e75743</a>
 </td>
 <td>
 jeanlucj
@@ -624,6 +649,43 @@ op &lt;- par(mfrow = c(1, 2))
 plot(pcFnd$x[, 1:2], pch = 16, main = paste(&quot;Split&quot;, nGenAgoSplit, &quot;generations ago&quot;))
 plot(pcFnd$x[, c(1, 3)], pch = 16, main = paste(&quot;Split&quot;, nGenAgoSplit, &quot;generations ago&quot;))</code></pre>
 <p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20with%20subpopulations-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Coalescent-with-subpopulations-1">
+Past versions of “Coalescent with subpopulations-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Coalescent-with-subpopulations-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Coalescent with subpopulations-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The default is to have no subpopulation structure</p>
 <pre class="r"><code>founderHaps &lt;- runMacs2(nInd = nFounders, segSites = segSites, histNe = NULL, histGen = NULL)
 genoMat &lt;- pullSegSiteGeno(founderHaps)
@@ -632,7 +694,82 @@ plot(pcFnd$x[, 1:2], pch = 16, main = paste(&quot;No subpopulation split&quot;))
 plot(pcFnd$x[, c(1, 3)], pch = 16, main = paste(&quot;No subpopulation split&quot;))
 
 par(op)</code></pre>
-<p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Coalescent-without-subpopulations-1">
+Past versions of “Coalescent without subpopulations-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Coalescent-without-subpopulations-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Coalescent without subpopulations-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/AlphaSimRexamples.Rmd/Coalescent%20without%20subpopulations-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Coalescent-without-subpopulations-2">
+Past versions of “Coalescent without subpopulations-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-Coalescent-without-subpopulations-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Coalescent without subpopulations-2.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <blockquote>
 <p>What will affect whether subpopulations diverge <em>phenotypically</em> (that is, not just in terms of allele frequencies at markers)?</p>
 </blockquote>
@@ -655,6 +792,43 @@ founders &lt;- newPop(founderHaps, simParam = SP)
 plot(gv(founders), bv(founders), pch = 16, xlab = &quot;Genotypic value&quot;, ylab = &quot;Breeding value&quot;, 
     main = &quot;Breeding value against genotypic value&quot;, cex.axis = 1.3, cex.lab = 1.3)</code></pre>
 <p><img src="figure/AlphaSimRexamples.Rmd/Compare%20breeding%20value%20to%20genotypic%20value-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Compare-breeding-value-to-genotypic-value-1">
+Past versions of “Compare breeding value to genotypic value-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Compare-breeding-value-to-genotypic-value-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Compare breeding value to genotypic value-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="estimated-versus-analytical-breeding-value" class="section level3">
 <h3>Estimated versus analytical breeding value</h3>
@@ -687,7 +861,120 @@ estimatedBV &lt;- sapply(1:nInd(founders), estimateBV, pop = founders, nProgeny 
 # Compare estimated and analytical breeding values
 plot(bv(founders), estimatedBV, pch = 16, xlab = &quot;Analytical value&quot;, ylab = &quot;Estimated value&quot;, 
     main = paste(&quot;Breeding value estimated from&quot;, nProgeny, &quot;Progeny&quot;))</code></pre>
-<p><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Estimate-breeding-value-1">
+Past versions of “Estimate breeding value-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Estimate-breeding-value-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Estimate breeding value-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Estimate-breeding-value-2">
+Past versions of “Estimate breeding value-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-Estimate-breeding-value-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Estimate breeding value-2.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/AlphaSimRexamples.Rmd/Estimate%20breeding%20value-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Estimate-breeding-value-3">
+Past versions of “Estimate breeding value-3.png”
+</button>
+</p>
+<div id="fig-no-spaces-Estimate-breeding-value-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Estimate breeding value-3.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <blockquote>
 <p>Change the <code>estimateBV</code> function so that it returns a mean <em>phenotypic</em> value, with the user able to specify the broad sense heritability with which the phenotype is measured.<br />
 What sources of error variation are contributing to estimates of the parent breeding value?</p>
@@ -732,6 +1019,43 @@ boxplot(estInbDepFndr, xaxt = &quot;n&quot;, xlab = &quot;Mean dominance degree&
 axis(side = 1, at = 1:3, labels = F)
 mtext(meanDD, at = 1:3, side = 1, line = 1, cex = 1.3)</code></pre>
 <p><img src="figure/AlphaSimRexamples.Rmd/Inbreeding%20depression-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Inbreeding-depression-1">
+Past versions of “Inbreeding depression-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Inbreeding-depression-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Inbreeding depression-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="selection-effectiveness-on-loci-with-different-action" class="section level2">
 <h2>Selection effectiveness on loci with different action</h2>
@@ -798,6 +1122,43 @@ lines(1:nCyc, progGenoVal[, 2], col = 2)
 lines(1:nCyc, progGenoVal[, 3], col = 3)
 legend(1, 2.5, c(&quot;meanDD=0.0&quot;, &quot;meanDD=0.4&quot;, &quot;meanDD=0.8&quot;), pch = 16, col = 1:3)</code></pre>
 <p><img src="figure/AlphaSimRexamples.Rmd/Selection%20do%20it-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Selection-do-it-1">
+Past versions of “Selection do it-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Selection-do-it-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Selection do it-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <blockquote>
 <p>Explore the matrices of phenotypic, genotypic, and breeding values. What is the relationship between the genotypic value of the selected parents and the genotypic value of their offspring. What about breeding values?</p>
 </blockquote>
@@ -825,7 +1186,82 @@ plot(apply(estInbDepFndr, 2, median), apply(estInbDepSelected, 2, median), pch =
     col = 1:3, cex = 2, main = &quot;Change in relative inbreeding depression&quot;)
 lines(c(-1, 3), c(-1, 3))
 legend(0.1, 1, c(&quot;meanDD=0.0&quot;, &quot;meanDD=0.4&quot;, &quot;meanDD=0.8&quot;), pch = 16, col = 1:3)</code></pre>
-<p><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Post-selection-inbreeding-depression-1">
+Past versions of “Post-selection inbreeding depression-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Post-selection-inbreeding-depression-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Post-selection inbreeding depression-1.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/AlphaSimRexamples.Rmd/Post-selection%20inbreeding%20depression-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Post-selection-inbreeding-depression-2">
+Past versions of “Post-selection inbreeding depression-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-Post-selection-inbreeding-depression-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jeanlucj/Lab2_7170/blob/67f8de424a88badc710a028731186c3dc812f239/docs/figure/AlphaSimRexamples.Rmd/Post-selection inbreeding depression-2.png" target="_blank">67f8de4</a>
+</td>
+<td>
+jeanlucj
+</td>
+<td>
+2020-02-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <blockquote>
 <p>How do you interpret this result?</p>
 </blockquote>
