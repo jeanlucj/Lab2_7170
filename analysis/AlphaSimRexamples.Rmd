@@ -1,0 +1,320 @@
+---
+title: "AlphaSimR examples"
+author: 
+  name: "Jean-Luc Jannink and Kelly Robbins"
+  affiliation: "USDA-ARS / Cornell"
+date: "February 2, 2020"
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 12
+    highlight: haddock
+    theme: cosmo
+    toc: yes
+    toc_float:
+      collapsed: no
+      toc_depth: 2
+editor_options: 
+  chunk_output_type: console
+---
+  
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+knitr::opts_chunk$set(message=FALSE)
+knitr::opts_chunk$set(cache=FALSE)
+knitr::opts_chunk$set(tidy=TRUE)
+knitr::opts_chunk$set(results="hold")
+knitr::opts_chunk$set(collapse=TRUE)
+knitr::opts_chunk$set(fig.show="hold")
+knitr::opts_chunk$set(tidy.opts = list(wrap=FALSE))
+```
+
+## Objectives
+We will be using `AlphaSimR` to  
+* Simulate datasets to test statistical genetic analysis methods  
+* Simulate whole breeding programs in view of optimizing them
+
+Example code to work with `AlphaSimR` to  
+1. Create founder haplotypes with and without population structure  
+2. Get breeding values from `AlphaSimR` and from an "experiment"  
+3. Play with directional dominance and evaluate inbreeding depression  
+4. Run that through some selection cycles and see how inbreeding depression evolves  
+
+**NOTE**  When you run this for yourself, change the random seed, else everyone will get the same result.
+
+## Reproducibility
+Here is the [README file](../README.md) for this report  
+
+### Script setup
+Install packages, start the README.md, set the random seed  
+```{r Script setup, echo=FALSE}
+ip <- installed.packages()
+packages_used <- c("AlphaSimR", "tidyverse")
+
+for (package in packages_used){
+  isInstalled <- package %in% rownames(ip)
+  if (!isInstalled){
+    stop(paste("ERROR: you need to install the", package, "package"))
+  } else{
+    library(package, character.only=T)
+  }
+}#END packages_used
+
+source("code/addToREADME.R")
+addToREADME(paste0("## ", rmarkdown::metadata$title), append=F)
+addToREADME(c(date(), ""))
+
+packages_used <- as_tibble(ip[packages_used, c("Package", "Version", "Built")])
+# Clunky way to add the packages at the end
+readme_file <- ".addToReadMe.txt"
+write_tsv(packages_used, readme_file)
+
+random_seed <- 45678
+set.seed(random_seed)
+addToREADME(paste("The random seed is", random_seed))
+
+addToREADME(c("", "The packages used in this script are:"))
+addToREADME(readLines(readme_file))
+addToREADME("")
+```
+
+## Coalescent simulator to create founder haplotypes
+
+### Script parameters
+```{r script parameters, echo=FALSE}
+nFounders <- 100
+nChr <- 7
+segSites <- 140
+nQTL <- 100
+addToREADME(c(
+  paste("Number of founders ", nFounders), 
+  paste("Number of chromosomes ", nChr), 
+  paste("Number of QTL per chromosome", nQTL),
+  paste("Number of segregating sites per chromosome", segSites), "")
+)
+```
+Number of founders `nFounders` = `r nFounders`  
+Number of chromosomes `nChr` = `r nChr`  
+Each chromosome has `segSites` = `r segSites` segregating sites  
+Each chromosome has `nQTL` = `r nQTL` QTL
+
+### Coalescent with / without subpopulations
+`AlphaSimR` can create founder haplotypes with the [coalescent simulator, MaCS](https://www.ncbi.nlm.nih.gov/pubmed/19029539).
+```{r Coalescent with subpopulations}
+nGenAgoSplit <- 100
+founderHaps <- runMacs2(nInd=nFounders, segSites=segSites, split=nGenAgoSplit, histNe=NULL, histGen=NULL)
+genoMat <- pullSegSiteGeno(founderHaps)
+pcFnd <- prcomp(genoMat, retx=T)
+op <- par(mfrow=c(1,2))
+plot(pcFnd$x[,1:2], pch=16, main=paste("Split", nGenAgoSplit, "generations ago"))
+plot(pcFnd$x[,c(1,3)], pch=16, main=paste("Split", nGenAgoSplit, "generations ago"))
+```
+
+The default is to have no subpopulation structure
+```{r Coalescent without subpopulations}
+founderHaps <- runMacs2(nInd=nFounders, segSites=segSites, histNe=NULL, histGen=NULL)
+genoMat <- pullSegSiteGeno(founderHaps)
+pcFnd <- prcomp(genoMat, retx=T)
+plot(pcFnd$x[,1:2], pch=16, main=paste("No subpopulation split"))
+plot(pcFnd$x[,c(1,3)], pch=16, main=paste("No subpopulation split"))
+
+par(op)
+```
+
+> What will affect whether subpopulations diverge *phenotypically* (that is, not just in terms of allele frequencies at markers)?
+
+### Genotypic value versus breeding value
+By default, the additive genetic variance among founders will be 1.  
+```{r Compare breeding value to genotypic value}
+# Setup the genotype to phenotype mapping
+SP <- SimParam$new(founderHaps)
+meanDD <- 0.4
+varDD <- 0.3
+addToREADME(c("Chunk Compare breeding value to genotypic value",
+              paste("Dominance degree mean", meanDD),
+              paste("Dominance degree variance", varDD), "")
+            )
+SP$addTraitAD(nQtlPerChr=nQTL, meanDD=meanDD, varDD=varDD)
+
+# Create a new population of founders
+founders <- newPop(founderHaps, simParam=SP)
+
+# Compare genotypic and breeding values
+plot(gv(founders), bv(founders), pch=16, xlab="Genotypic value", ylab="Breeding value", main="Breeding value against genotypic value", cex.axis=1.3, cex.lab=1.3)
+```
+
+### Estimated versus analytical breeding value
+Estimating the breeding value by a progeny test.  Cheating a bit because the estimation method uses the genotypic value, as opposed to a phenotype.
+```{r Estimate breeding value}
+# Estimate breeding values  
+# ind is the individual whose breeding value you want to estimate  
+# pop is the population that individual is in  
+# nProgeny is the number of progeny for the test  
+estimateBV <- function(ind, pop, nProgeny){
+  # Set up crossPlan to cross ind to random others nProgeny times
+  crossPlan <- cbind(ind, sample(nInd(pop), nProgeny, replace=T))
+  progeny <- makeCross(founders, crossPlan)
+  return(2*mean(gv(progeny)))
+}
+
+nProgeny <- 5
+estimatedBV <- sapply(1:nInd(founders), estimateBV, pop=founders, nProgeny=nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch=16, xlab="Analytical value", ylab="Estimated value", main=paste("Breeding value estimated from", nProgeny, "Progeny"))
+
+nProgeny <- 50
+estimatedBV <- sapply(1:nInd(founders), estimateBV, pop=founders, nProgeny=nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch=16, xlab="Analytical value", ylab="Estimated value", main=paste("Breeding value estimated from", nProgeny, "Progeny"))
+
+nProgeny <- 500
+estimatedBV <- sapply(1:nInd(founders), estimateBV, pop=founders, nProgeny=nProgeny)
+# Compare estimated and analytical breeding values
+plot(bv(founders), estimatedBV, pch=16, xlab="Analytical value", ylab="Estimated value", main=paste("Breeding value estimated from", nProgeny, "Progeny"))
+```
+
+> Change the `estimateBV` function so that it returns a mean *phenotypic* value, with the user able to specify the broad sense heritability with which the phenotype is measured.  
+> What sources of error variation are contributing to estimates of the parent breeding value?
+
+## Inbreeding depression
+Inbreeding depression should increase as the degree of dominance increases. It has to be directional dominance: that the alleles shifting the phenotype in the same direction are always the dominant ones. Here, inbreeding depression is the difference in the genotypic value between an individual and the mean genotypic value of its progeny from selfing.
+```{r Inbreeding depression}
+# Setup a new genotype to phenotype mapping
+SP <- SimParam$new(founderHaps)
+# Try different values of degree of dominance
+meanDD <- c(0.0, 0.4, 0.8)
+varDD <- 0.2
+addToREADME(c("Chunk Inbreeding depression",
+              paste("Dominance degree mean", paste(meanDD, collapse=" ")),
+              paste("Dominance degree variance", varDD), "")
+            )
+SP$addTraitAD(nQtlPerChr=nQTL, mean=rep(0, 3), var=rep(1, 3), meanDD=meanDD, varDD=varDD)
+# Create a new population of founders
+founders <- newPop(founderHaps, simParam=SP)
+
+# Estimate individual inbreeding depression
+# ind is the individual whose inbreeding depression you want to estimate
+# pop is the population that individual is in
+# nProgeny is the number of selfed progeny for the test
+estimateInbDep <- function(ind, pop, nProgeny){
+  # Set up crossPlan to self ind nProgeny times
+  crossPlan <- matrix(rep(ind, 2*nProgeny), ncol=2)
+  progeny <- makeCross(pop, crossPlan)
+  return(gv(pop[ind]) - colMeans(gv(progeny)))
+}
+
+nProgeny <- 500
+estInbDepFndr <- t(sapply(1:nInd(founders), estimateInbDep, pop=founders, nProgeny=nProgeny))
+# Standardize by the genotypic standard deviation
+sigmaG <- sqrt(diag(varG(founders)))
+for (trait in 1:ncol(estInbDepFndr)){
+  estInbDepFndr <- estInbDepFndr/sigmaG[trait]
+}
+# Make nice plot
+boxplot(estInbDepFndr, xaxt="n", xlab="Mean dominance degree", ylab="Inbreeding depression")
+axis(side=1, at=1:3, labels=F)
+mtext(meanDD, at=1:3, side=1, line=1, cex=1.3)
+```
+
+## Selection effectiveness on loci with different action
+### Set up the selection program
+Number of cycles, how to weight different traits, selection intensity, etc.
+```{r Selection setup}
+# Number of selection cycles
+nCyc <- 5
+# Selection index weights for the traits
+idxWgt <- c(1, 1, 1)
+# Narrow-sense heritabilities
+h2 <- c(0.5, 0.5, 0.5)
+errVar <- diag(varA(founders)) / h2 - diag(varG(founders))
+# Selection intensity
+nProgeny <- 1000
+nToSelect <- 100
+addToREADME(c("Chunk Selection",
+              paste("Number of cycles of selection", nCyc),
+              paste("Index weights across three traits", paste(idxWgt, collapse=" ")),
+              paste("Heritability across three traits", paste(h2, collapse=" ")),
+              paste("Error var across three traits", paste(round(errVar, 2), collapse=" ")),
+              paste("Number of progeny", nProgeny),
+              paste("Number to select", nToSelect), "")
+            )
+
+# Setup to save cycle means for inspection
+cycleMeans <- list(phenoByCyc=NULL, genoValByCyc=NULL, breedValByCyc=NULL)
+saveCycMeans <- function(cycleMeans){
+  within(cycleMeans, {
+        phenoByCyc <- rbind(phenoByCyc, c(colMeans(selectedPheno), colMeans(progenyPheno)))
+        genoValByCyc <- rbind(genoValByCyc, c(colMeans(gv(selected)), colMeans(gv(progenyPop))))
+        breedValByCyc <- rbind(breedValByCyc, c(colMeans(bv(selected)), colMeans(bv(progenyPop))))
+  })
+}
+```
+
+> Discuss the function `saveCycMeans` from the perspective of good coding practice  
+
+### Run the breeding program
+Use `AlphaSimR` functions in a simple loop
+```{r Selection do it}
+selected <- founders
+selectedPheno <- setPheno(selected, varE=errVar, onlyPheno=T)
+for (cyc in 1:nCyc){
+  # Create new population
+  # Randomly mate but with equal representation of all selected
+  crossPlan <- matrix(sample(rep(1:nInd(selected), length.out=2*nProgeny)), ncol=2)
+  progenyPop <- makeCross(selected, crossPlan)
+  # Get phenotypes
+  progenyPheno <- setPheno(progenyPop, varE=errVar, onlyPheno=T)
+  # Store phenotypes, genotypic values, and breeding values for analysis
+  cycleMeans <- saveCycMeans(cycleMeans)
+  # Select
+  selIdx <- progenyPheno %*% idxWgt
+  toSelect <- order(selIdx, decreasing=T)[1:nToSelect]
+  selected <- progenyPop[toSelect]
+  selectedPheno <- progenyPheno[toSelect,]
+}
+
+# Make a plot of gain from selection
+progGenoVal <- cycleMeans$genoValByCyc[,4:6]
+ylim <- range(c(progGenoVal, 2.5))
+plot(1:nCyc, progGenoVal[,1], type="l", ylim=ylim, xlab="Breeding cycle", ylab="Progney genotypic value", main="Gain from selection!")
+lines(1:nCyc, progGenoVal[,2], col=2)
+lines(1:nCyc, progGenoVal[,3], col=3)
+legend(1, 2.5, c("meanDD=0.0", "meanDD=0.4", "meanDD=0.8"), pch=16, col=1:3)
+```
+
+> Explore the matrices of phenotypic, genotypic, and breeding values.  What is the relationship between the genotypic value of the selected parents and the genotypic value of their offspring.  What about breeding values?
+
+### Analyze inbreeding depression
+Selection will have lowered the genotypic variance across all traits. Some loci will have shifted in allele frequency more than others.
+```{r Post-selection inbreeding depression}
+# Inbreeding depression relative to genetic standard deviation
+nProgeny <- 100
+estInbDepSelected <- t(sapply(1:nInd(progenyPop), estimateInbDep, pop=progenyPop, nProgeny=nProgeny))
+# Standardize by the genotypic standard deviation
+sigmaG <- sqrt(diag(varG(progenyPop)))
+for (trait in 1:ncol(estInbDepSelected)){
+  estInbDepSelected <- estInbDepSelected/sigmaG[trait]
+}
+# Make nice plot
+boxplot(estInbDepSelected, xaxt="n", xlab="Mean dominance degree", ylab="Inbreeding depression")
+axis(side=1, at=1:3, labels=F)
+mtext(meanDD, at=1:3, side=1, line=1, cex=1.3)
+
+# Compare unselected founders to selected progeny
+plot(apply(estInbDepFndr, 2, median), apply(estInbDepSelected, 2, median), pch=16, xlab="Inbreeding depression in founders", ylab="Inbreeding depression in selected", col=1:3, cex=2, main="Change in relative inbreeding depression")
+lines(c(-1, 3), c(-1, 3))
+legend(0.1, 1, c("meanDD=0.0", "meanDD=0.4", "meanDD=0.8"), pch=16, col=1:3)
+```
+
+> How do you interpret this result?

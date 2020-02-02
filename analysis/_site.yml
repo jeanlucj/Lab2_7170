@@ -1,7 +1,7 @@
-name: "Lab2_7170"
+name: "Draft_Lab2"
 output_dir: ../docs
 navbar:
-  title: "Lab2_7170"
+  title: "Draft_Lab2"
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,8 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  - text: Lab2
+    href: Lab2_AlphaSimRexamples.html
 output:
   workflowr::wflow_html:
     toc: yes

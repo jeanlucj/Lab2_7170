@@ -7,15 +7,15 @@ editor_options:
   chunk_output_type: console
 ---
 
-What license are you using for your code? See [choosealicense.com][choose] for
-help deciding. It's a convention to save a file `LICENSE` in the root of your
-Git repo that contains the license text.
+My standards are:    
+[MIT License](https://choosealicense.com/licenses/mit/) for the code and    
+[Creative Commons Attribution 4.0 License](https://creativecommons.org/licenses/by/4.0/) for the text  
 
-What license are you using for the written content on your site? It is
-traditional to choose a [Creative Commons][cc] license for this type of content.
+If you want to look at details, see [choosealicense.com][choose] for
+help deciding.  
+For details on the written content of the site, see [Creative Commons][cc].  
 
 [choose]: http://choosealicense.com/
 [cc]: https://creativecommons.org/choose/
 
-How should others cite your work? It's a convention to save a file `CITATION`
-in the root of your Git repo that contains the citation information.
+I have no `CITATION` (which would contain citation information) in the root of the Git repo though that is standard. 

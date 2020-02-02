@@ -7,4 +7,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+Example code to work with `AlphaSimR` to  
+1. Create founder haplotypes with and without population structure  
+2. Get breeding values from `AlphaSimR` and from an "experiment"  
+3. Play with directional dominance and evaluate inbreeding depression  
+4. Run that through some selection cycles and see how breeding depression evloves  
+
