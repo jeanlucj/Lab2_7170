@@ -1,5 +1,5 @@
 ## AlphaSimR examples  
-Sun Feb  2 16:03:33 2020  
+Sun Feb  2 16:09:16 2020  
   
 The random seed is 45678  
   
@@ -25,7 +25,7 @@ Chunk Selection
 Number of cycles of selection 5  
 Index weights across three traits 1 1 1  
 Heritability across three traits 0.5 0.5 0.5  
-Error var across three traits 0.91 0.89 0.83  
+Error var across three traits 0.88 0.79 0.7  
 Number of progeny 1000  
 Number to select 100  
   

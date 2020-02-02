@@ -119,6 +119,7 @@ pcFnd <- prcomp(genoMat, retx=T)
 op <- par(mfrow=c(1,2))
 plot(pcFnd$x[,1:2], pch=16, main=paste("Split", nGenAgoSplit, "generations ago"))
 plot(pcFnd$x[,c(1,3)], pch=16, main=paste("Split", nGenAgoSplit, "generations ago"))
+par(op)
 ```
 
 The default is to have no subpopulation structure
@@ -126,9 +127,9 @@ The default is to have no subpopulation structure
 founderHaps <- runMacs2(nInd=nFounders, segSites=segSites, histNe=NULL, histGen=NULL)
 genoMat <- pullSegSiteGeno(founderHaps)
 pcFnd <- prcomp(genoMat, retx=T)
+op <- par(mfrow=c(1,2))
 plot(pcFnd$x[,1:2], pch=16, main=paste("No subpopulation split"))
 plot(pcFnd$x[,c(1,3)], pch=16, main=paste("No subpopulation split"))
-
 par(op)
 ```
 
