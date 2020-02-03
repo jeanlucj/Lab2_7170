@@ -54,7 +54,7 @@ Example code to work with `AlphaSimR` to
 **NOTE**  When you run this for yourself, change the random seed, else everyone will get the same result.
 
 ## Reproducibility
-Here is the [README file](../README.md) for this report  
+Here is the [README file](./README.md) for this report  
 
 ### Script setup
 Install packages, start the README.md, set the random seed  
@@ -195,7 +195,7 @@ Inbreeding depression should increase as the degree of dominance increases. It h
 SP <- SimParam$new(founderHaps)
 # Try different values of degree of dominance
 meanDD <- c(0.0, 0.4, 0.8)
-varDD <- 0.2
+varDD <- 0.3
 addToREADME(c("Chunk Inbreeding depression",
               paste("Dominance degree mean", paste(meanDD, collapse=" ")),
               paste("Dominance degree variance", varDD), "")
